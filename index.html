@@ -1,22 +1,210 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Alan & Nora</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" href="style.css" />
+<meta charset="UTF-8" />
+<title>Alan & Nora</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Inter:wght@400;500&display=swap');
+
+:root {
+  --bg: #F6EFE1;
+  --bg-deep: #EFE3CC;
+  --ink: #2B2420;
+  --ink-soft: #8A7A63;
+  --laterite: #C1592E;
+  --laterite-deep: #A34825;
+  --teal: #1F6F78;
+  --brass: #B8863B;
+  --cream: #FBF6EC;
+}
+
+* { box-sizing: border-box; }
+
+html, body { height: 100%; margin: 0; }
+
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  padding: 3rem 1.5rem 4.5rem;
+  font-family: 'Inter', system-ui, -apple-system, "Segoe UI", sans-serif;
+  color: var(--ink);
+  position: relative;
+  overflow-x: hidden;
+
+  /* warm gradient base + faint Goan tile motif, instead of a flat fill */
+  background-color: var(--bg);
+  background-image:
+    radial-gradient(ellipse at 50% -10%, rgba(255,255,255,0.5), transparent 60%),
+    linear-gradient(180deg, var(--bg) 0%, var(--bg-deep) 100%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56' viewBox='0 0 56 56'%3E%3Cg fill='none' stroke='%23C1592E' stroke-width='1' opacity='0.06'%3E%3Cpath d='M28 2 L52 28 L28 54 L4 28 Z'/%3E%3Ccircle cx='28' cy='28' r='9'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: auto, auto, 56px 56px;
+}
+
+/* vignette for depth */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse at 50% 45%, transparent 55%, rgba(43,36,32,0.07) 100%);
+}
+
+/* Portrait, framed like a Goan doorway */
+.portrait {
+  width: 210px;
+  height: 250px;
+  border-radius: 125px 125px 14px 14px;
+  padding: 4px;
+  background: linear-gradient(160deg, var(--brass), #8f6a2c);
+  box-shadow: 0 16px 34px rgba(43, 36, 32, 0.18), 0 0 0 1px rgba(184,134,59,0.25);
+  animation: rise 0.7s ease both;
+  position: relative;
+  z-index: 1;
+}
+.portrait-inner {
+  width: 100%;
+  height: 100%;
+  border-radius: 122px 122px 11px 11px;
+  overflow: hidden;
+  background: linear-gradient(160deg, #E3B98A 0%, var(--laterite) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.portrait-inner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 42%; /* nudge this % if the crop needs shifting once you see it live */
+  display: block;
+}
+.portrait.no-photo .portrait-inner::after {
+  content: "A & N";
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 1.4rem;
+  letter-spacing: 0.08em;
+  color: var(--cream);
+}
+.portrait.no-photo .portrait-inner img { display: none; }
+
+h1 {
+  font-family: 'Fraunces', Georgia, serif;
+  font-weight: 600;
+  font-size: 2.1rem;
+  letter-spacing: -0.01em;
+  margin: 0;
+  text-align: center;
+  animation: rise 0.7s ease 0.1s both;
+}
+
+.flourish {
+  width: 46px;
+  height: 10px;
+  margin: -0.6rem 0 0;
+  animation: rise 0.7s ease 0.18s both;
+}
+
+.tagline {
+  margin: -0.3rem 0 0;
+  color: var(--ink-soft);
+  font-size: 0.95rem;
+  text-align: center;
+  animation: rise 0.7s ease 0.24s both;
+}
+
+.cta {
+  display: inline-block;
+  margin-top: 0.3rem;
+  padding: 0.75rem 2.1rem;
+  background: var(--laterite);
+  color: var(--cream);
+  text-decoration: none;
+  border-radius: 999px;
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+  box-shadow: 0 8px 18px rgba(193, 89, 46, 0.28);
+  transition: background 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+  animation: rise 0.7s ease 0.32s both;
+}
+.cta:hover, .cta:focus-visible {
+  background: var(--laterite-deep);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 22px rgba(193, 89, 46, 0.34);
+}
+
+.private-link {
+  position: fixed;
+  left: 1.5rem;
+  bottom: 1.4rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.78rem;
+  color: var(--ink-soft);
+  text-decoration: none;
+  letter-spacing: 0.03em;
+  opacity: 0.75;
+  transition: opacity 0.15s ease;
+  z-index: 2;
+}
+.private-link::before {
+  content: "";
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--brass);
+}
+.private-link:hover, .private-link:focus-visible { opacity: 1; }
+
+.horizon {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 40px;
+  pointer-events: none;
+}
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cta { transition: none; }
+  .portrait, h1, .flourish, .tagline, .cta { animation: none; }
+}
+
+@media (max-width: 420px) {
+  .portrait { width: 165px; height: 197px; border-radius: 100px 100px 11px 11px; }
+  .portrait-inner { border-radius: 97px 97px 8px 8px; }
+  h1 { font-size: 1.7rem; }
+}
+</style>
 </head>
 <body>
 
   <div class="portrait" id="portrait">
-    <img
-      src="couple.jpg"
-      alt="Alan and Nora"
-      onerror="this.style.display='none'; document.getElementById('portrait').classList.add('no-photo')"
-    />
+    <div class="portrait-inner">
+      <img
+        src="couple.jpg"
+        alt="Alan and Nora"
+        onerror="document.getElementById('portrait').classList.add('no-photo')"
+      />
+    </div>
   </div>
 
   <h1>Alan & Nora</h1>
+
+  <svg class="flourish" viewBox="0 0 46 10" aria-hidden="true">
+    <path d="M0,5 Q11.5,0 23,5 T46,5" fill="none" stroke="#1F6F78" stroke-width="1.4" opacity="0.5" />
+  </svg>
+
   <p class="tagline">Welcome.</p>
 
   <a class="cta" href="https://family.alanandnora.com">Family</a>
