@@ -7,60 +7,25 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header class="site-header">
-    <div class="container">
-      <h1>Alan & Nora</h1>
-      <p class="tagline">Family, projects, and little stories from our life together.</p>
-      <nav class="nav">
-        <a href="#about">About</a>
-        <a href="#family">Family</a>
-        <a href="#projects">Projects</a>
-        <a href="#contact">Contact</a>
-      </nav>
-    </div>
-  </header>
 
-  <main>
-    <section id="about" class="section">
-      <div class="container">
-        <h2>About Us</h2>
-        <p>THIS IS A TEST!  We’re Alan and Nora, living in Austria. This space will grow over time.</p>
-      </div>
-    </section>
+  <div class="portrait" id="portrait">
+    <img
+      src="couple.jpg"
+      alt="Alan and Nora"
+      onerror="this.style.display='none'; document.getElementById('portrait').classList.add('no-photo')"
+    />
+  </div>
 
-    <section id="family" class="section section-alt">
-      <div class="container">
-        <h2>Our Family</h2>
-        <p>We’ll add more here soon.</p>
-      </div>
-    </section>
+  <h1>Alan & Nora</h1>
+  <p class="tagline">Welcome.</p>
 
-    <section id="projects" class="section">
-      <div class="container">
-        <h2>Projects</h2>
-        <p>More to come.</p>
-      </div>
-    </section>
+  <a class="cta" href="https://family.alanandnora.com">Family</a>
 
-    <section id="contact" class="section section-alt">
-      <div class="container">
-        <h2>Contact</h2>
-        <p><a href="mailto:info@alanandnora.com">info@alanandnora.com</a></p>
-      </div>
-    </section>
-  </main>
+  <a class="private-link" href="https://private.alanandnora.com">private</a>
 
-  <footer class="site-footer">
-    <div class="container">
-      <p>© <span id="year"></span> Alan & Nora</p>
-    </div>
-  </footer>
-
-  <script>
-    document.getElementById('year').textContent = new Date().getFullYear();
-  </script>
-<p><a href="https://private.alanandnora.com">Private login</a></p>
-
+  <svg class="horizon" viewBox="0 0 1000 40" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0,20 Q250,0 500,20 T1000,20" fill="none" stroke="#1F6F78" stroke-width="1.5" opacity="0.3" />
+  </svg>
 
 </body>
 </html>
