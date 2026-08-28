@@ -17,6 +17,7 @@
   --teal: #1F6F78;
   --brass: #B8863B;
   --cream: #FBF6EC;
+  --hint: #DBD2C2; /* just a touch darker than --bg, so it's readable but easy to miss */
 }
 
 * { box-sizing: border-box; }
@@ -137,10 +138,60 @@ h1 {
   box-shadow: 0 10px 22px rgba(193, 89, 46, 0.34);
 }
 
-.private-link {
+/* Bottom-left cluster: hint text (hidden until asked for), forgotten-password toggle, private link */
+.secret-links {
   position: fixed;
   left: 1.5rem;
   bottom: 1.4rem;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.45rem;
+}
+
+.hint-text {
+  margin: 0;
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  font-size: 0.78rem;
+  color: var(--hint);
+  letter-spacing: 0.02em;
+  transition: opacity 0.2s ease, max-height 0.2s ease;
+}
+.hint-text.visible {
+  opacity: 1;
+  max-height: 2.5rem;
+}
+
+.forgot-link {
+  appearance: none;
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: inherit;
+  font-size: 0.78rem;
+  color: var(--ink-soft);
+  letter-spacing: 0.03em;
+  cursor: pointer;
+  opacity: 0.75;
+  transition: opacity 0.15s ease;
+}
+.forgot-link::before {
+  content: "";
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--brass);
+}
+.forgot-link:hover, .forgot-link:focus-visible { opacity: 1; }
+
+.private-link {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
@@ -150,7 +201,6 @@ h1 {
   letter-spacing: 0.03em;
   opacity: 0.75;
   transition: opacity 0.15s ease;
-  z-index: 2;
 }
 .private-link::before {
   content: "";
@@ -160,6 +210,24 @@ h1 {
   background: var(--brass);
 }
 .private-link:hover, .private-link:focus-visible { opacity: 1; }
+
+/* Top-right hint, same low-contrast shade, hidden until the visitor asks for it */
+.top-hint {
+  position: fixed;
+  top: 1.2rem;
+  right: 1.5rem;
+  z-index: 2;
+  margin: 0;
+  max-width: 220px;
+  text-align: right;
+  font-size: 0.78rem;
+  color: var(--hint);
+  letter-spacing: 0.02em;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  pointer-events: none;
+}
+.top-hint.visible { opacity: 1; }
 
 .horizon {
   position: fixed;
@@ -209,11 +277,24 @@ h1 {
 
   <a class="cta" href="https://family.alanandnora.com">Family and Friends</a>
 
-  <a class="private-link" href="https://private.alanandnora.com">private</a>
+  <p class="top-hint" id="topHint">It's Alan's maiden name&hellip; of course.</p>
+
+  <div class="secret-links">
+    <p class="hint-text" id="hintText">Look up &mdash; top right of this page.</p>
+    <button class="forgot-link" type="button" id="forgotBtn">forgotten password?</button>
+    <a class="private-link" href="https://private.alanandnora.com">private</a>
+  </div>
 
   <svg class="horizon" viewBox="0 0 1000 40" preserveAspectRatio="none" aria-hidden="true">
     <path d="M0,20 Q250,0 500,20 T1000,20" fill="none" stroke="#1F6F78" stroke-width="1.5" opacity="0.3" />
   </svg>
+
+  <script>
+    document.getElementById('forgotBtn').addEventListener('click', function () {
+      document.getElementById('hintText').classList.toggle('visible');
+      document.getElementById('topHint').classList.toggle('visible');
+    });
+  </script>
 
 </body>
 </html>
